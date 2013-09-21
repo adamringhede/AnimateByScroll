@@ -3,25 +3,38 @@
 (function(){
 	var self = this;
 	var eventObjects = [];
-	var pub = {
-		add: function(){
+	var disabled = false;
+	var pub = {		/*element, styles, startAt, endAt */
+		add: function( arg ){
+			// Add styles for the object
+			var tS = {};
+			for(var i in arg.styles) {
+				tS[i] = [/*default*/ parseInt(arg.element.style[i]) ,/*new*/ parseInt(arg.styles[i]) ];
+			};
+			// Add eventObject to datastructure
 			eventObjects.push({
-				endAt:
-				startAt:
-				
+				animationStartAt: arg.startAt,
+				animationEndAt: arg.endAt,
+				targetStyle: tS
 			});
 		},
 		clear: function(){
 			console.log("not yet implemented");
+		},
+		disable: function(){
+			disabled = true;
+		},
+		enable: function(){
+			disabled = false;
 		}
 	};
 	
-	
 	$(document).scroll(function(){
+		if(disabled) return;
 		var sT = $(document).scrollTop(
 		for(var i = 0; i < eventObjects.length; i++){
 			var eo = eventObjects[i];
-			if(sT <= eo.endAt && sT >= eo.startAt) {
+			if(sT <= eo.animationEndAt && sT >= eo.animationStartAt) {
 				
 			}
 		}
@@ -29,15 +42,3 @@
 	
 	window.ScrollingStones = pub;
 })();
-/*
-function stone(element, newStyle, startAt, endAt) {
-	var 
-		old = element.css(newStyle[0]),
-		newVal = element.css(newStyle[1]);
-		
-	
-}
-
-
-stone(someEl, {left:100, top:40}, 400, 700);
-*/
