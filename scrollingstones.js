@@ -1,11 +1,9 @@
-
-
 (function(){
 	var eventObjects = [],
 		disabled = false,
 		pub = {		
 		/** Add an element that should be animated on scroll
-		 * parameters: arg.element, arg.styles, arg.startAt, arg.endAt 
+		 * parameters: arg.element, arg.styles, arg.startAt, arg.endAt
 		 */
 		add: function( arg ){
 			// Add styles for the object
@@ -13,7 +11,7 @@
 			for(var i in arg.styles) {
 				tS[i] = [/*default*/ parseInt(arg.element.style[i]) ,/*new*/ parseInt(arg.styles[i]) ];
 			}
-			// Add eventObject to datastructure
+			// Add eventObject to array
 			eventObjects.push({
 				animationStartAt: arg.startAt,
 				animationEndAt: arg.endAt,
@@ -21,7 +19,7 @@
 			});
 		},
 		clear: function(){
-			console.log("not yet implemented");
+			eventObjects.length = 0;
 		},
 		/** Disable the animations
 		 */
