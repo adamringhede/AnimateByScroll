@@ -5,7 +5,7 @@
 		/** Add an element that should be animated on scroll
 		 * parameters: arg.element, arg.styles, arg.startAt, arg.endAt
 		 */
-		add: function( arg ){
+		add: function( element, arg ){
 			// Add styles for the object
 			var tS = {};
 			for(var i in arg.styles) {
@@ -15,7 +15,8 @@
 			eventObjects.push({
 				animationStartAt: arg.startAt,
 				animationEndAt: arg.endAt,
-				targetStyle: tS
+				targetStyle: tS,
+				element: element
 			});
 		},
 		clear: function(){
@@ -42,7 +43,7 @@
 				var progress = (sT - eo.animationStartAt) / (eo.animationEndAt - eo.animationStartAt);
 				for (var attr in eo.targetStyle) {
 					var def = eo.targetStyle[attr][0];
-					eo.element.style[attr] = def+((eo.targetStyle[attr][1] - def) * progress)
+					eo.element.css(attr, def+((eo.targetStyle[attr][1] - def) * progress));
 				}
 			}
 		}
