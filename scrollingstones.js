@@ -5,18 +5,18 @@
 		/** Add an element that should be animated on scroll
 		 * parameters: arg.element, arg.styles, arg.startAt, arg.endAt
 		 */
-		add: function( arg ){
+		add: function( element, arg ){
 			// Add styles for the object
 			var tS = {};
 			for(var i in arg.styles) {
-				tS[i] = [/*default*/ parseFloat(arg.element.style[i]) ,/*new*/ parseFloat(arg.styles[i]) ];
+				tS[i] = [/*default*/ parseFloat(element.css(i)) ,/*new*/ parseFloat(arg.styles[i]) ];
 			}
 			// Add eventObject to array
 			eventObjects.push({
 				animationStartAt: arg.startAt,
 				animationEndAt: arg.endAt,
 				targetStyle: tS,
-				element: $(arg.element)
+				element: element
 			});
 		},
 		clear: function(){
@@ -49,5 +49,10 @@
 		}
 	});
 	
-	window.ScrollingStones = pub;
+	jQuery.fn.animateByScroll = function() {
+		if (typeof arguments[0] === "boolean")
+			arguments[0] ? pub.enable() : pub.disable() // If true, enable; otherwise, disable. 
+		else if (typeof arguments[0] === "object")
+			pub.add(this, arguments[0]);
+	};
 })();
