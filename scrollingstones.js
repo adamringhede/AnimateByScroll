@@ -16,7 +16,7 @@
 				animationStartAt: arg.startAt,
 				animationEndAt: arg.endAt,
 				targetStyle: tS,
-				element: arg.element
+				element: $(arg.element)
 			});
 		},
 		clear: function(){
