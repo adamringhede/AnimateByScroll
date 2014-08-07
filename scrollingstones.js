@@ -5,18 +5,18 @@
 		/** Add an element that should be animated on scroll
 		 * parameters: arg.element, arg.styles, arg.startAt, arg.endAt
 		 */
-		add: function( element, arg ){
+		add: function( arg ){
 			// Add styles for the object
 			var tS = {};
 			for(var i in arg.styles) {
-				tS[i] = [/*default*/ parseInt(arg.element.style[i]) ,/*new*/ parseInt(arg.styles[i]) ];
+				tS[i] = [/*default*/ parseFloat(arg.element.style[i]) ,/*new*/ parseFloat(arg.styles[i]) ];
 			}
 			// Add eventObject to array
 			eventObjects.push({
 				animationStartAt: arg.startAt,
 				animationEndAt: arg.endAt,
 				targetStyle: tS,
-				element: element
+				element: arg.element
 			});
 		},
 		clear: function(){
