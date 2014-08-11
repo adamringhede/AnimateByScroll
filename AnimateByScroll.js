@@ -39,13 +39,21 @@
 		var sT = $(document).scrollTop();		
 		for(var i = 0; i < eventObjects.length; i++){
 			var eo = eventObjects[i];
-			if(sT <= eo.animationEndAt && sT >= eo.animationStartAt) {
+			if (sT < eo.animationStartAt) {
+				for (var attr in eo.targetStyle) { // Set default if above
+					eo.element.css(attr, eo.targetStyle[attr][0]); 
+				}
+			} else if (sT > eo.animationEndAt) { // Set target if below
+				for (var attr in eo.targetStyle) {
+					eo.element.css(attr, eo.targetStyle[attr][1]); 
+				}
+			} else /* if (sT <= eo.animationEndAt && sT >= eo.animationStartAt) */ {
 				var progress = (sT - eo.animationStartAt) / (eo.animationEndAt - eo.animationStartAt);
 				for (var attr in eo.targetStyle) {
 					var def = eo.targetStyle[attr][0];
 					eo.element.css(attr, def+((eo.targetStyle[attr][1] - def) * progress));
 				}
-			}
+			} 
 		}
 	});
 	
