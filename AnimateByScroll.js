@@ -28,12 +28,15 @@
 			eventObjects.push({
 				animationStartAt: arg.startAt,
 				animationEndAt: arg.endAt,
+				a: arg.a,
+				b: arg.b,
 				progress: 0,
 				enabled: true,
 				id: id,
 				callback: arg.fn,
-				difference: arg.startAt - arg.endAt,
+				difference: arg.b - arg.a
 			});
+			id += 1;
 		},
 		clear: function(){
 			eventObjects.length = 0;
@@ -79,7 +82,7 @@
 					}
 				} else {
 					if (eo.progress !== 0) {
-						eo.callback(eo.startAt, 0)
+						eo.callback(eo.a, 0)
 					}
 					eo.progress = 0;
 				}
@@ -90,7 +93,7 @@
 					}
 				} else {
 					if (eo.progress !== 1) {
-						eo.callback(eo.endAt, 1)
+						eo.callback(eo.b, 1)
 					}
 					eo.progress = 1;
 				}
@@ -103,7 +106,7 @@
 					}
 				} else {
 					if (eo.progress !== progress) {
-						eo.callback(eo.startAt + eo.difference * progress, progress);
+						eo.callback(eo.a + eo.difference * progress, progress);
 					}
 					eo.progress = progress;
 				}
@@ -115,7 +118,7 @@
 		if (typeof arguments[0] === "boolean")
 			arguments[0] ? pub.enable() : pub.disable() // If true, enable; otherwise, disable. 
 		else if (typeof arguments[0] === "object")
-			pub.add(this, arguments[0]);
+			pub.addElement(this, arguments[0]);
 	};
 	window.AnimateByScroll = pub;
 })();
