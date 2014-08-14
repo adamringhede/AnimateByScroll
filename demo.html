@@ -59,6 +59,15 @@
 				opacity: 0.5
 			}
 		});
+		AnimateByScroll.addInterval({
+			startAt: 50, 
+			endAt: 200,
+			a: 5,
+			b: -4,
+			fn: function (value, progress) {
+				console.log("Value: " + value + ", Progress: " + progress);
+			}
+		});
 
 		</script>
 
