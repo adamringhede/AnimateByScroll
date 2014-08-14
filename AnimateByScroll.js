@@ -1,11 +1,12 @@
 (function(){
 	var eventObjects = [],
+		id = 0,
 		disabled = false,
 		pub = {		
 		/** Add an element that should be animated on scroll
 		 * parameters: arg.element, arg.styles, arg.startAt, arg.endAt
 		 */
-		add: function( element, arg ){
+		addElement: function( element, arg ){
 			// Add styles for the object
 			var tS = {};
 			for(var i in arg.styles) {
@@ -16,21 +17,44 @@
 				animationStartAt: arg.startAt,
 				animationEndAt: arg.endAt,
 				targetStyle: tS,
-				element: element
+				element: element,
+				enabled: true,
+				id: id
 			});
+			element.data('animateByScrollID', id);
+			id += 1;
+		},
+		addInterval: function (parameters) {
+			
 		},
 		clear: function(){
 			eventObjects.length = 0;
 		},
 		/** Disable the animations
 		 */
-		disable: function(){
-			disabled = true;
+		disable: function(object){
+			if (!object) {
+				disabled = true;
+			} else {
+				for (var i = 0, l = eventObjects; i < l; i++) {
+					if (eventObjects[i].id === parseInt(object.data('animateByScrollID'))) {
+						eventObjects[i].enabled = false;
+					}
+				}
+			}
 		},
 		/** Enable the animations
 		 */
-		enable: function(){
-			disabled = false;
+		enable: function(object){
+			if (!object) {
+				disabled = false;
+			} else {
+				for (var i = 0, l = eventObjects; i < l; i++) {
+					if (eventObjects[i].id === parseInt(object.data('animateByScrollID'))) {
+						eventObjects[i].enabled = true;
+					}
+				}
+			}
 		}
 	};
 	
@@ -39,6 +63,7 @@
 		var sT = $(document).scrollTop();		
 		for(var i = 0; i < eventObjects.length; i++){
 			var eo = eventObjects[i];
+			if (!eo.enabled) continue;
 			if (sT < eo.animationStartAt) {
 				for (var attr in eo.targetStyle) { // Set default if above
 					eo.element.css(attr, eo.targetStyle[attr][0]); 
@@ -63,4 +88,14 @@
 		else if (typeof arguments[0] === "object")
 			pub.add(this, arguments[0]);
 	};
+	window.AnimateByScroll = pub;
 })();
+
+AnimateByScroll.add({
+	startAt: 1,
+	endAt: 5,
+	fn: function (value, progress) {
+
+	}
+});
+
