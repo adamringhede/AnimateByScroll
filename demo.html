@@ -1,0 +1,66 @@
+<html>
+	<head>
+		<title>AnimateByScroll - demo</title>
+		<script src="jquery-1.10.2.min.js"></script>
+		<script src="AnimateByScroll.js"></script>
+		<style>
+			div {
+				width:100px;
+				height:100px;
+				position:absolute;
+				background-color: #4af
+			}
+			section {
+				height: 1000px;
+			}
+			#move {
+				left:325px;
+				top:300px;
+			}
+			#enlarge {
+				left:50px;
+				top:300px;
+			}
+			#fade {
+				opacity: 1;
+				left:600px;
+				top:300px;
+			}
+		</style>
+	</head>
+	<body>
+		<section id="wrapper">
+			<div id="enlarge"></div>
+			<div id="move"></div>
+			<div id="fade"></div>
+		</setion>
+
+		<script>
+		$('#enlarge').animateByScroll({
+			startAt:50,
+			endAt:200,
+			styles: {
+				width:160,
+				height:50
+			}
+		});
+		$('#move').animateByScroll({
+			startAt:50,
+			endAt:200,
+			styles: {
+				top:400,
+				left:360
+			}
+		});
+		$('#fade').animateByScroll({
+			startAt:50,
+			endAt:200,
+			styles: {
+				opacity: 0.5
+			}
+		});
+
+		</script>
+
+	</body>
+</html>
