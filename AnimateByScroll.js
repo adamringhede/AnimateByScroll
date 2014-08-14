@@ -24,8 +24,16 @@
 			element.data('animateByScrollID', id);
 			id += 1;
 		},
-		addInterval: function (parameters) {
-			
+		addInterval: function (arg) {
+			eventObjects.push({
+				animationStartAt: arg.startAt,
+				animationEndAt: arg.endAt,
+				progress: 0,
+				enabled: true,
+				id: id,
+				callback: arg.fn,
+				difference: arg.startAt - arg.endAt,
+			});
 		},
 		clear: function(){
 			eventObjects.length = 0;
@@ -65,18 +73,39 @@
 			var eo = eventObjects[i];
 			if (!eo.enabled) continue;
 			if (sT < eo.animationStartAt) {
-				for (var attr in eo.targetStyle) { // Set default if above
-					eo.element.css(attr, eo.targetStyle[attr][0]); 
+				if (eo.element) {
+					for (var attr in eo.targetStyle) { // Set default if above
+						eo.element.css(attr, eo.targetStyle[attr][0]); 
+					}
+				} else {
+					if (eo.progress !== 0) {
+						eo.callback(eo.startAt, 0)
+					}
+					eo.progress = 0;
 				}
 			} else if (sT > eo.animationEndAt) { // Set target if below
-				for (var attr in eo.targetStyle) {
-					eo.element.css(attr, eo.targetStyle[attr][1]); 
+				if (eo.element) {
+					for (var attr in eo.targetStyle) {
+						eo.element.css(attr, eo.targetStyle[attr][1]); 
+					}
+				} else {
+					if (eo.progress !== 1) {
+						eo.callback(eo.endAt, 1)
+					}
+					eo.progress = 1;
 				}
 			} else /* if (sT <= eo.animationEndAt && sT >= eo.animationStartAt) */ {
 				var progress = (sT - eo.animationStartAt) / (eo.animationEndAt - eo.animationStartAt);
-				for (var attr in eo.targetStyle) {
-					var def = eo.targetStyle[attr][0];
-					eo.element.css(attr, def+((eo.targetStyle[attr][1] - def) * progress));
+				if (eo.element) {
+					for (var attr in eo.targetStyle) {
+						var def = eo.targetStyle[attr][0];
+						eo.element.css(attr, def+((eo.targetStyle[attr][1] - def) * progress));
+					}
+				} else {
+					if (eo.progress !== progress) {
+						eo.callback(eo.startAt + eo.difference * progress, progress);
+					}
+					eo.progress = progress;
 				}
 			} 
 		}
@@ -90,12 +119,3 @@
 	};
 	window.AnimateByScroll = pub;
 })();
-
-AnimateByScroll.add({
-	startAt: 1,
-	endAt: 5,
-	fn: function (value, progress) {
-
-	}
-});
-
