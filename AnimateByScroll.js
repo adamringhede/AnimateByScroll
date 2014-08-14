@@ -6,7 +6,7 @@
 		/** Add an element that should be animated on scroll
 		 * parameters: arg.element, arg.styles, arg.startAt, arg.endAt
 		 */
-		addElement: function( element, arg ){
+		element: function( element, arg ){
 			// Add styles for the object
 			var tS = {};
 			for(var i in arg.styles) {
@@ -24,7 +24,7 @@
 			element.data('animateByScrollID', id);
 			id += 1;
 		},
-		addInterval: function (arg) {
+		interval: function (arg) {
 			eventObjects.push({
 				animationStartAt: arg.startAt,
 				animationEndAt: arg.endAt,
@@ -118,7 +118,7 @@
 		if (typeof arguments[0] === "boolean")
 			arguments[0] ? pub.enable() : pub.disable() // If true, enable; otherwise, disable. 
 		else if (typeof arguments[0] === "object")
-			pub.addElement(this, arguments[0]);
+			pub.element(this, arguments[0]);
 	};
 	window.AnimateByScroll = pub;
 })();
