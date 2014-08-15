@@ -23,3 +23,18 @@ $.fn.animateByScroll(false); // Disable
 $.fn.animateByScroll(true); // Enable
 
 ```
+
+A function (fn) can receive a value within a range (a -> b) on scroll within the scroll range.
+
+```JS
+AnimateByScroll.interval({
+  startAt: 50,
+  endAt: 150,
+  a: 1,
+  b: 10,
+  fn: function (value, range) {
+  
+  }
+});
+  
+```
